@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiLogin.Dashboard"
+             Title="Dashboard">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Dashboard"
+                   FontSize="28"
+                   HorizontalOptions="Center"/>
+
+            <!-- Normal User Profile Panel -->
+            <StackLayout x:Name="UserPanel" IsVisible="False">
+                <Label Text="Your Profile:" FontSize="20" />
+                <Entry x:Name="EditUsername" IsReadOnly="True" Placeholder="Username (cannot change)" />
+                <Entry x:Name="EditEmail" IsReadOnly="True" Placeholder="Email (cannot change)" />
+                <Entry x:Name="EditPassword" Placeholder="New Password" IsPassword="True" />
+
+                <Picker x:Name="EditGender" Title="Select Gender" />
+
+                <Button Text="Save Changes" Clicked="OnSaveUserChanges"/>
+            </StackLayout>
+
+            <!-- Admin Management Panel -->
+            <StackLayout x:Name="AdminPanel" IsVisible="False">
+                <Label Text="Admin Panel - Manage Users" FontSize="20" />
+
+                <!-- Show registered accounts -->
+                <CollectionView x:Name="UsersList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="Gray" Padding="10" Margin="5">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Username}" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Email}" />
+                                    <Label Text="{Binding Gender}" />
+                                    <!-- ✅ Show Password -->
+                                    <Label Text="{Binding Password}" TextColor="Red" FontAttributes="Italic"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <Button Text="Logout" Clicked="OnLogoutClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
