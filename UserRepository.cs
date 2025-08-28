@@ -13,16 +13,21 @@ public static class UserRepository
         _users.Add(new User
         {
             Username = "admin",
+            FirstName = "System",
+            LastName = "Administrator",
             Email = "admin@system.com",
             Password = "admin123",
-            Gender = "Other"
+            Gender = "Other",
+            Address = "System HQ",
+            DateOfBirth = "N/A"
         });
     }
+
     public static bool UserExists(string username, string email)
     {
         return _users.Any(u =>
-        u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) ||
-        u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+            u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) ||
+            u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
     }
 
     public static void AddUser(User user) => _users.Add(user);
@@ -33,7 +38,6 @@ public static class UserRepository
             (u.Username.Equals(input, StringComparison.OrdinalIgnoreCase) ||
              u.Email.Equals(input, StringComparison.OrdinalIgnoreCase))
             && u.Password == password);
-
     }
 
     public static List<User> GetAllUsers() => _users;
@@ -44,6 +48,10 @@ public static class UserRepository
         if (existing != null)
         {
             existing.Username = updatedUser.Username;
+            existing.FirstName = updatedUser.FirstName;
+            existing.LastName = updatedUser.LastName;
+            existing.Address = updatedUser.Address;
+            existing.DateOfBirth = updatedUser.DateOfBirth;
             existing.Password = updatedUser.Password;
             existing.Gender = updatedUser.Gender;
         }
