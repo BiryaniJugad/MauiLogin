@@ -8,6 +8,12 @@
         {
             InitializeComponent();
         }
+
+        private async void OnEnterClicked(object sender, EventArgs e)
+        {
+
+        }
+
         private async void OnLoginClicked(object sender, EventArgs e)
         {
             string input = UsernameEntry.Text;

@@ -4,13 +4,22 @@
              x:Class="MauiLogin.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="20" Spacing="15" WidthRequest="400">
 
             <Label Text="Login" FontSize="28" HorizontalOptions="Center"/>
 
-            <Entry x:Name="UsernameEntry" Placeholder="Username" />
-            <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
-
+            <Frame BorderColor="Black"
+                   HeightRequest="45"
+                   Padding="1"
+                   Margin="1">
+                <Entry x:Name="UsernameEntry" Placeholder="Username" />
+            </Frame>
+            <Frame BorderColor="Black"
+                   HeightRequest="45"
+                   Padding="1"
+                   Margin="1">
+                <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+            </Frame>
             <Button Text="Login" Clicked="OnLoginClicked"/>
 
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">

@@ -4,32 +4,109 @@ namespace MauiLogin;
 
 public partial class RegisterPage : ContentPage
 {
-	public RegisterPage()
-	{
-		InitializeComponent();
-        GenderPicker.SelectedIndex = 0;
+    private readonly List<string> _genders = new() { "Male", "Female", "Other" };
+    private readonly List<string> _months;
+    private readonly List<string> _days;
+    private readonly List<string> _years;
 
-        LoadPickers();
-    }
-    private void LoadPickers()
+    public RegisterPage()
     {
-        // Months (Jan–Dec)
-        MonthPicker.ItemsSource = System.Globalization.DateTimeFormatInfo
+        InitializeComponent();
+
+        // Prepare dropdown data
+        _months = System.Globalization.DateTimeFormatInfo
             .InvariantInfo.MonthNames
             .Where(m => !string.IsNullOrEmpty(m))
             .ToList();
 
-        // Days 1–31
-        DayPicker.ItemsSource = Enumerable.Range(1, 31)
+        _days = Enumerable.Range(1, 31)
             .Select(d => d.ToString())
             .ToList();
 
-        // Years 1900–current (descending)
         int currentYear = DateTime.Now.Year;
-        YearPicker.ItemsSource = Enumerable.Range(1900, currentYear - 1899)
+        _years = Enumerable.Range(1900, currentYear - 1899)
             .Reverse()
             .Select(y => y.ToString())
             .ToList();
+
+        // Bind data
+        GenderDropdownCollection.ItemsSource = _genders;
+        MonthDropdownCollection.ItemsSource = _months;
+        DayDropdownCollection.ItemsSource = _days;
+        YearDropdownCollection.ItemsSource = _years;
+
+        // Toggle dropdowns
+        GenderDropdownFrame.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() => ToggleDropdown(GenderDropdownListFrame))
+        });
+
+        MonthDropdownFrame.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() => ToggleDropdown(MonthDropdownListFrame))
+        });
+
+        DayDropdownFrame.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() => ToggleDropdown(DayDropdownListFrame))
+        });
+
+        YearDropdownFrame.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() => ToggleDropdown(YearDropdownListFrame))
+        });
+    }
+
+    private void ToggleDropdown(Frame listFrame)
+    {
+        // Hide all dropdowns first
+        GenderDropdownListFrame.IsVisible = false;
+        MonthDropdownListFrame.IsVisible = false;
+        DayDropdownListFrame.IsVisible = false;
+        YearDropdownListFrame.IsVisible = false;
+
+        // Show the one tapped
+        listFrame.IsVisible = true;
+    }
+
+    // Gender item tapped
+    private void OnGenderItemTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is string gender)
+        {
+            GenderSelectedLabel.Text = gender;
+            GenderDropdownListFrame.IsVisible = false;
+        }
+    }
+
+    // Month item tapped
+    private void OnMonthItemTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is string month)
+        {
+            MonthSelectedLabel.Text = month;
+            MonthDropdownListFrame.IsVisible = false;
+        }
+    }
+
+    // Day item tapped
+    private void OnDayItemTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is string day)
+        {
+            DaySelectedLabel.Text = day;
+            DayDropdownListFrame.IsVisible = false;
+        }
+    }
+
+    // Year item tapped
+    private void OnYearItemTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is string year)
+        {
+            YearSelectedLabel.Text = year;
+            YearDropdownListFrame.IsVisible = false;
+        }
     }
 
     private async void OnRegisterClicked(object sender, EventArgs e)
@@ -38,16 +115,12 @@ public partial class RegisterPage : ContentPage
         string lastName = LastNameEntry.Text?.Trim();
         string email = EmailEntry.Text?.Trim();
         string address = AddressEntry.Text?.Trim();
-        string gender = GenderPicker.SelectedItem?.ToString();
+        string gender = GenderSelectedLabel.Text != "Select Gender" ? GenderSelectedLabel.Text : null;
+        string month = MonthSelectedLabel.Text != "Month" ? MonthSelectedLabel.Text : null;
+        string day = DaySelectedLabel.Text != "Day" ? DaySelectedLabel.Text : null;
+        string year = YearSelectedLabel.Text != "Year" ? YearSelectedLabel.Text : null;
         string password = PasswordEntry.Text;
         string confirmPassword = ConfirmPasswordEntry.Text;
-
-        // Validate gender (must be selected)
-        if (GenderPicker.SelectedIndex < 0)
-        {
-            await DisplayAlert("Error", "Please select a gender.", "OK");
-            return;
-        }
 
         // Validate required fields
         if (string.IsNullOrWhiteSpace(firstName) ||
@@ -60,6 +133,13 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
+        // Validate gender
+        if (gender == null)
+        {
+            await DisplayAlert("Error", "Please select a gender.", "OK");
+            return;
+        }
+
         // Validate email format
         if (!IsValidEmail(email))
         {
@@ -67,7 +147,7 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
-        // Check if user already exists (username = firstname+lastname here, or use email)
+        // Check if user already exists
         string username = $"{firstName}{lastName}";
         if (UserRepository.UserExists(username, email))
         {
@@ -84,9 +164,9 @@ public partial class RegisterPage : ContentPage
 
         // Get DOB string
         string dob = null;
-        if (MonthPicker.SelectedIndex >= 0 && DayPicker.SelectedIndex >= 0 && YearPicker.SelectedIndex >= 0)
+        if (month != null && day != null && year != null)
         {
-            dob = $"{MonthPicker.SelectedItem} {DayPicker.SelectedItem}, {YearPicker.SelectedItem}";
+            dob = $"{month} {day}, {year}";
         }
 
         // Save user
