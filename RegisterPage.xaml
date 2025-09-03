@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiLogin.RegisterPage">
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15" WidthRequest="400">
+        <VerticalStackLayout Padding="20" Spacing="15" WidthRequest="400" VerticalOptions="Center">
 
             <Label Text="Registration" FontSize="28" HorizontalOptions="Center"/>
 
@@ -33,49 +33,14 @@
                 <Entry x:Name="AddressEntry" Placeholder="Physical Address" />
             </Frame>
 
-            <!-- Gender Dropdown -->
-            <Label Text="Select Gender"/>
-            <Frame x:Name="GenderDropdownFrame"
-                   BorderColor="Black"
-                   CornerRadius="6"
-                   Padding="10"
-                   HasShadow="False">
-                <Grid>
-                    <Label x:Name="GenderSelectedLabel"
-                           Text="Select Gender"
-                           VerticalOptions="Center" />
-                </Grid>
-            </Frame>
-            <Frame x:Name="GenderDropdownListFrame"
-                   BorderColor="Black"
-                   CornerRadius="6"
-                   Padding="0"
-                   HasShadow="True"
-                   IsVisible="False">
-                <CollectionView x:Name="GenderDropdownCollection"
-                                HeightRequest="150"
-                                SelectionMode="Single">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Label Text="{Binding}"
-                                   Padding="10"
-                                   FontSize="16"
-                                   BackgroundColor="White">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer 
-                                        CommandParameter="{Binding .}"
-                                        Tapped="OnGenderItemTapped"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+            <!-- Gender Picker -->
+            <Frame BorderColor="Black" HeightRequest="65" Padding="2" Margin="1">
+                <Picker x:Name="GenderPicker"
+                Title="Select Gender" />
             </Frame>
 
-            <!-- Date of Birth Dropdowns -->
+
+            <!-- Date of Birth -->
             <Label Text="Date of Birth"/>
             <Grid ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
@@ -84,122 +49,14 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Month -->
-                <VerticalStackLayout Grid.Column="0">
-                    <Frame x:Name="MonthDropdownFrame"
-                           BorderColor="Black"
-                           CornerRadius="6"
-                           Padding="10"
-                           HasShadow="False">
-                        <Label x:Name="MonthSelectedLabel" Text="Month" />
-                    </Frame>
-                    <Frame x:Name="MonthDropdownListFrame"
-                           BorderColor="Black"
-                           CornerRadius="6"
-                           Padding="0"
-                           HasShadow="True"
-                           IsVisible="False">
-                        <CollectionView x:Name="MonthDropdownCollection"
-                                        HeightRequest="150"
-                                        SelectionMode="Single">
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Vertical"/>
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Text="{Binding}"
-                                           Padding="10"
-                                           FontSize="16"
-                                           BackgroundColor="White">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer 
-                                                CommandParameter="{Binding .}"
-                                                Tapped="OnMonthItemTapped"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </Frame>
-                </VerticalStackLayout>
+                <!-- Month Picker -->
+                 <Picker x:Name="MonthPicker" Title="Month" Grid.Column="0"/>
 
-                <!-- Day -->
-                <VerticalStackLayout Grid.Column="1">
-                    <Frame x:Name="DayDropdownFrame"
-                           BorderColor="Black"
-                           CornerRadius="6"
-                           Padding="10"
-                           HasShadow="False">
-                        <Label x:Name="DaySelectedLabel" Text="Day" />
-                    </Frame>
-                    <Frame x:Name="DayDropdownListFrame"
-                           BorderColor="Black"
-                           CornerRadius="6"
-                           Padding="0"
-                           HasShadow="True"
-                           IsVisible="False">
-                        <CollectionView x:Name="DayDropdownCollection"
-                                        HeightRequest="150"
-                                        SelectionMode="Single">
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Vertical"/>
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Text="{Binding}"
-                                           Padding="10"
-                                           FontSize="16"
-                                           BackgroundColor="White">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer 
-                                                CommandParameter="{Binding .}"
-                                                Tapped="OnDayItemTapped"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </Frame>
-                </VerticalStackLayout>
+                <!-- Day Picker -->
+                <Picker x:Name="DayPicker" Title="Day" Grid.Column="1" />
 
-                <!-- Year -->
-                <VerticalStackLayout Grid.Column="2">
-                    <Frame x:Name="YearDropdownFrame"
-                           BorderColor="Black"
-                           CornerRadius="6"
-                           Padding="10"
-                           HasShadow="False">
-                        <Label x:Name="YearSelectedLabel" Text="Year" />
-                    </Frame>
-                    <Frame x:Name="YearDropdownListFrame"
-                           BorderColor="Black"
-                           CornerRadius="6"
-                           Padding="0"
-                           HasShadow="True"
-                           IsVisible="False">
-                        <CollectionView x:Name="YearDropdownCollection"
-                                        HeightRequest="150"
-                                        SelectionMode="Single">
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Vertical"/>
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Text="{Binding}"
-                                           Padding="10"
-                                           FontSize="16"
-                                           BackgroundColor="White">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer 
-                                                CommandParameter="{Binding .}"
-                                                Tapped="OnYearItemTapped"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </Frame>
-                </VerticalStackLayout>
+                <!-- Year Picker -->
+                <Picker x:Name="YearPicker" Title="Year" Grid.Column="2" />
             </Grid>
 
             <!-- Password -->

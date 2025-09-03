@@ -4,7 +4,7 @@
              x:Class="MauiLogin.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15" WidthRequest="400">
+        <VerticalStackLayout Padding="20" Spacing="15" WidthRequest="400" VerticalOptions="Center">
 
             <Label Text="Login" FontSize="28" HorizontalOptions="Center"/>
 
